@@ -107,7 +107,7 @@ void swap(heap_t **arg_node, heap_t **arg_child)
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-	heap_t *new_node;
+	heap_t *new_nde;
 
 	if (*root == NULL)
 	{
@@ -119,29 +119,29 @@ heap_t *heap_insert(heap_t **root, int value)
 	{
 		if ((*root)->left)
 		{
-			new_node = heap_insert(&((*root)->left), value);
+			new_nde = heap_insert(&((*root)->left), value);
 			swap(root, &((*root)->left));
-			return (new_node);
+			return (new_nde);
 		}
 		else
 		{
-			new_node = (*root)->left = binary_tree_node(*root, value);
+			new_nde = (*root)->left = binary_tree_node(*root, value);
 			swap(root, &((*root)->left));
-			return (new_node);
+			return (new_nde);
 		}
 	}
 
 	if ((*root)->right)
 	{
-		new_node = heap_insert(&((*root)->right), value);
+		new_nde = heap_insert(&((*root)->right), value);
 		swap(root, (&(*root)->right));
-		return (new_node);
+		return (new_nde);
 	}
 	else
 	{
-		new_node = (*root)->right = binary_tree_node(*root, value);
+		new_nde = (*root)->right = binary_tree_node(*root, value);
 		swap(root, &((*root)->right));
-		return (new_node);
+		return (new_nde);
 	}
 
 	return (NULL);
