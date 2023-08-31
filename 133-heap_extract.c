@@ -1,61 +1,61 @@
 #include "binary_trees.h"
 
 /**
- * count_heap_nodes - Counts the number of nodes inside a tree
+ * _count_hpnodes - Counts the number of nodes inside a tree
  * @root: Pointer to tree's root node
  *
  * Return: Number of tree nodes
  */
-int count_heap_nodes(binary_tree_t *root)
+int _count_hpnodes(binary_tree_t *root)
 {
 	if (!root)
 		return (0);
 
-	return (1 + count_heap_nodes(root->left) +
-		    count_heap_nodes(root->right));
+	return (1 + _count_hpnodes(root->left) +
+		    _count_hpnodes(root->right));
 }
 
 
 /**
- * bubble_down - Puts a node value in a correct position in the heap
+ * corr_pos - Puts a node value in a correct position in the heap
  * @parent: Pointer to heap's node
  */
-void bubble_down(heap_t *parent)
+void corr_pos(heap_t *parent)
 {
-	int temp;
-	heap_t *max_child = NULL;
+	int arbtry;
+	heap_t *big_child = NULL;
 
 	if (!parent)
 		return;
 
 	while (parent && parent->left)
 	{
-		max_child = parent->left;
+		big_child = parent->left;
 
 		if (parent->right && parent->right->n > parent->left->n)
-			max_child = parent->right;
+			big_child = parent->right;
 
-		if (max_child->n > parent->n)
+		if (big_child->n > parent->n)
 		{
-			temp = parent->n;
-			parent->n = max_child->n;
-			max_child->n = temp;
+			arbtry = parent->n;
+			parent->n = big_child->n;
+			big_child->n = arbtry;
 		}
 
-		parent = max_child;
+		parent = big_child;
 	}
 }
 
 
 /**
- * get_parent - Finds the parent node for a ceratin node
+ * find_parent - Finds the parent node for a ceratin node
  * @root: Pointer to heap's node
  * @index: Index of the current node
  * @pind: Index been searched
  *
  * Return: Pointer to heap's node
  */
-heap_t *get_parent(heap_t *root, int index, int pind)
+heap_t *find_parent(heap_t *root, int index, int pind)
 {
 	heap_t *left = NULL, *right = NULL;
 
@@ -65,11 +65,11 @@ heap_t *get_parent(heap_t *root, int index, int pind)
 	if (index == pind)
 		return (root);
 
-	left = get_parent(root->left, index * 2 + 1, pind);
+	left = find_parent(root->left, index * 2 + 1, pind);
 	if (left)
 		return (left);
 
-	right = get_parent(root->right, index * 2 + 2, pind);
+	right = find_parent(root->right, index * 2 + 2, pind);
 	if (right)
 		return (right);
 
@@ -78,11 +78,11 @@ heap_t *get_parent(heap_t *root, int index, int pind)
 
 
 /**
- * remove_last_node - Removes the last node of a heap
+ * rem_last_nde - Removes the last node of a heap
  * @root: Doublepointer to heap's root node
  * @parent: Pointer to parent node from which to remove the last node
  */
-void remove_last_node(heap_t **root, heap_t *parent)
+void rem_last_nde(heap_t **root, heap_t *parent)
 {
 	if (parent == *root && !parent->left)
 	{
@@ -105,7 +105,7 @@ void remove_last_node(heap_t **root, heap_t *parent)
 		parent->left = NULL;
 	}
 
-	bubble_down(*root);
+	corr_pos(*root);
 }
 
 
@@ -117,19 +117,19 @@ void remove_last_node(heap_t **root, heap_t *parent)
  */
 int heap_extract(heap_t **root)
 {
-	int nodes, pind = 0, max_val = 0;
+	int ndes, pind = 0, big_val = 0;
 	heap_t *parent;
 
 	if (!root || !(*root))
 		return (0);
 
-	max_val = (*root)->n;
-	nodes = count_heap_nodes(*root);
+	big_val = (*root)->n;
+	ndes = _count_hpnodes(*root);
 
-	pind = (nodes - 2) / 2;
-	parent = get_parent(*root, 0, pind);
+	pind = (ndes - 2) / 2;
+	parent = find_parent(*root, 0, pind);
 
-	remove_last_node(root, parent);
+	rem_last_nde(root, parent);
 
-	return (max_val);
+	return (big_val);
 }

@@ -1,6 +1,6 @@
 #include "binary_trees.h"
 /**
- * bst_search -function find node in a tree
+ * bst_search - function that searches for a value in a Binary Search Tree
  * @tree: root of the tre to evaluate
  * @value: node to find
  * Return: 1 if exits 0 if no
